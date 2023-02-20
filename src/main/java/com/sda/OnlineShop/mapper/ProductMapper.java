@@ -25,10 +25,11 @@ public class ProductMapper {
         ProductDto productDto = new ProductDto();
         productDto.setName(product.getName());
         productDto.setPrice(String.valueOf(product.getPrice()));
-        productDto.setCategory(productDto.getCategory());
+        productDto.setCategory(product.getCategory());
         productDto.setQuantity(String.valueOf(product.getQuantity()));
         productDto.setDescription(product.getDescription());
         productDto.setImage(Base64.encodeBase64String(product.getImage()));
+        productDto.setId(String.valueOf(product.getProductId()));
         return productDto;
     }
 
