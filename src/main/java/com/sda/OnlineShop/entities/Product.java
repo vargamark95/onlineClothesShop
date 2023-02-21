@@ -10,7 +10,6 @@ import java.awt.*;
 @Entity
 @Getter
 @Setter
-
 public class Product {
 
     @Id

@@ -1,8 +1,9 @@
 package com.sda.OnlineShop.controller;
 
 import com.sda.OnlineShop.dto.ProductDto;
+import com.sda.OnlineShop.dto.RegistrationDto;
 import com.sda.OnlineShop.service.ProductService;
-
+import com.sda.OnlineShop.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +18,12 @@ public class MainController {
 
     @Autowired
     private ProductService productService;
-
+    @Autowired
+    private RegistrationService registrationService;
 
 
     @GetMapping("/addProduct")
-    public String addProductGet(Model model){
+    public String addProductGet(Model model) {
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
         //teoretic aici executam business logic
@@ -31,22 +33,23 @@ public class MainController {
 
     @PostMapping("/addProduct")
     public String addProductPost(@ModelAttribute ProductDto productDto,
-                                 @RequestParam("productImage") MultipartFile multipartFile){
+                                 @RequestParam("productImage") MultipartFile multipartFile) {
         productService.addProduct(productDto, multipartFile);
         System.out.println(productDto);
         return "addProduct";
     }
 
     @GetMapping("/home")
-    public String homeGet(Model model){
+    public String homeGet(Model model) {
         List<ProductDto> productDtos = productService.getAllProductDtos();
         model.addAttribute("productDtos", productDtos);
         return "home";
     }
+
     @GetMapping("product/{productId}")
     public String productViewGet(@PathVariable(value = "productId") String productId, Model model) {
         Optional<ProductDto> optionalProductDto = productService.getOptionalProductDtoById(productId);
-        if(optionalProductDto.isEmpty()){
+        if (optionalProductDto.isEmpty()) {
             return "error";
         }
         ProductDto productDto = optionalProductDto.get();
@@ -54,6 +57,25 @@ public class MainController {
         System.out.println("Am dat click pe produsul cu id-ul " + productId);
         return "viewProduct";
     }
+
+    @GetMapping("/registration")
+    public String viewRegistrationGet(Model model) {
+        RegistrationDto registrationDto = new RegistrationDto();
+        model.addAttribute("registrationDto", registrationDto);//adauga
+        return "registration";
     }
+
+    @PostMapping("/registration")
+    public String viewRegistrationPost(@ModelAttribute RegistrationDto registrationDto) {
+        System.out.println("S-a apelat functionalitatea de viewRegistrationPost: " +registrationDto);
+        registrationService.addRegister(registrationDto);
+        return "registration";
+    }
+
+    @GetMapping("/login")
+    public String viewLoginGet() {
+        return "login";
+    }
+}
 
 
