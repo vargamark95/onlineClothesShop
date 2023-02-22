@@ -4,9 +4,11 @@ import com.sda.OnlineShop.dto.ProductDto;
 import com.sda.OnlineShop.dto.RegistrationDto;
 import com.sda.OnlineShop.service.ProductService;
 import com.sda.OnlineShop.service.RegistrationService;
+import com.sda.OnlineShop.validators.RegistrationDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +22,8 @@ public class MainController {
     private ProductService productService;
     @Autowired
     private RegistrationService registrationService;
+    @Autowired
+    private RegistrationDtoValidator registrationDtoValidator;
 
 
     @GetMapping("/addProduct")
@@ -66,8 +70,12 @@ public class MainController {
     }
 
     @PostMapping("/registration")
-    public String viewRegistrationPost(@ModelAttribute RegistrationDto registrationDto) {
-        System.out.println("S-a apelat functionalitatea de viewRegistrationPost: " +registrationDto);
+    public String viewRegistrationPost(@ModelAttribute RegistrationDto registrationDto, BindingResult bindingResult) {
+        System.out.println("S-a apelat functionalitatea de viewRegistrationPost: " + registrationDto);
+        if(bindingResult.hasErrors()){
+            return "registration";
+        }
+        registrationDtoValidator.validate(registrationDto, bindingResult);
         registrationService.addRegister(registrationDto);
         return "registration";
     }
