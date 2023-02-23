@@ -2,6 +2,7 @@ package com.sda.OnlineShop.controller;
 
 import com.sda.OnlineShop.dto.ProductDto;
 import com.sda.OnlineShop.dto.RegistrationDto;
+import com.sda.OnlineShop.entities.SelectedProductDto;
 import com.sda.OnlineShop.service.ProductService;
 import com.sda.OnlineShop.service.RegistrationService;
 import com.sda.OnlineShop.validators.RegistrationDtoValidator;
@@ -24,7 +25,6 @@ public class MainController {
     private RegistrationService registrationService;
     @Autowired
     private RegistrationDtoValidator registrationDtoValidator;
-
 
     @GetMapping("/addProduct")
     public String addProductGet(Model model) {
@@ -58,6 +58,9 @@ public class MainController {
         }
         ProductDto productDto = optionalProductDto.get();
         model.addAttribute("productDto", productDto);
+
+        SelectedProductDto selectedProductDto = new SelectedProductDto();
+        model.addAttribute("selectedProductDto", selectedProductDto);
         System.out.println("Am dat click pe produsul cu id-ul " + productId);
         return "viewProduct";
     }
@@ -84,6 +87,8 @@ public class MainController {
     public String viewLoginGet() {
         return "login";
     }
+
+
 }
 
 
