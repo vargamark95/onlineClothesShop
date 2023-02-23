@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.awt.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +26,6 @@ public class Product {
     @Column(columnDefinition = "BLOB")
     private byte[] image;
 
+    @OneToMany(mappedBy = "product")
+    private List<SelectedProduct> selectedProducts;
 }
