@@ -2,11 +2,14 @@ package com.sda.OnlineShop.controller;
 
 import com.sda.OnlineShop.dto.ProductDto;
 import com.sda.OnlineShop.dto.RegistrationDto;
+import com.sda.OnlineShop.dto.ShoppingCartDto;
 import com.sda.OnlineShop.entities.SelectedProductDto;
 import com.sda.OnlineShop.service.ProductService;
 import com.sda.OnlineShop.service.RegistrationService;
+import com.sda.OnlineShop.service.ShoppingCartService;
 import com.sda.OnlineShop.validators.RegistrationDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,8 @@ public class MainController {
     private RegistrationService registrationService;
     @Autowired
     private RegistrationDtoValidator registrationDtoValidator;
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     @GetMapping("/addProduct")
     public String addProductGet(Model model) {
@@ -40,7 +45,7 @@ public class MainController {
                                  @RequestParam("productImage") MultipartFile multipartFile) {
         productService.addProduct(productDto, multipartFile);
         System.out.println(productDto);
-        return "addProduct";
+        return "redirect:/addProduct";
     }
 
     @GetMapping("/home")
@@ -65,6 +70,17 @@ public class MainController {
         return "viewProduct";
     }
 
+    @PostMapping("/product/{productId}")
+    public String viewProductPost(@ModelAttribute SelectedProductDto selectedProductDto,
+                                  @PathVariable(value = "productId") String productId,
+                                  Authentication authentication){
+        System.out.println(selectedProductDto);
+        System.out.println(authentication.getName());
+
+        shoppingCartService.addToCart(selectedProductDto,productId, authentication.getName());
+        return "redirect:/product/" + productId;
+    }
+
     @GetMapping("/registration")
     public String viewRegistrationGet(Model model) {
         RegistrationDto registrationDto = new RegistrationDto();
@@ -86,6 +102,13 @@ public class MainController {
     @GetMapping("/login")
     public String viewLoginGet() {
         return "login";
+    }
+
+    @GetMapping("/checkout")
+    public String viewCheckoutGet(Authentication authentication, Model model){
+        ShoppingCartDto shoppingCartDto = shoppingCartService.getShoppingCartDto(authentication.getName());
+        model.addAttribute("shoppingcartDto", shoppingCartDto);
+        return "checkout";
     }
 
 

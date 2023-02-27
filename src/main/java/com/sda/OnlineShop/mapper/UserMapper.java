@@ -1,6 +1,7 @@
 package com.sda.OnlineShop.mapper;
 
 import com.sda.OnlineShop.dto.RegistrationDto;
+import com.sda.OnlineShop.entities.ShoppingCart;
 import com.sda.OnlineShop.entities.User;
 import com.sda.OnlineShop.entities.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class UserMapper {
         user.setAdress(registrationDto.getAdress());
         user.setPhoneNumber(registrationDto.getPhoneNumber());
         user.setUserRole(UserRole.valueOf(registrationDto.getUserRole()));
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        user.setShoppingCart(shoppingCart);
+        shoppingCart.setUser(user);
         return user;
 
     }
