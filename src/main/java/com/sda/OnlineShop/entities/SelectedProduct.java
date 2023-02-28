@@ -22,4 +22,6 @@ public class SelectedProduct {
     @JoinColumn
     private ShoppingCart shoppingCart;
 
+    private Integer price;
+    private String name;
 }

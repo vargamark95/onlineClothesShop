@@ -3,11 +3,14 @@ package com.sda.OnlineShop.service;
 import com.sda.OnlineShop.dto.ShoppingCartDto;
 import com.sda.OnlineShop.entities.Product;
 import com.sda.OnlineShop.entities.SelectedProduct;
-import com.sda.OnlineShop.entities.SelectedProductDto;
+import com.sda.OnlineShop.dto.SelectedProductDto;
 import com.sda.OnlineShop.entities.ShoppingCart;
+import com.sda.OnlineShop.entities.User;
+import com.sda.OnlineShop.mapper.ShoppingCartMapper;
 import com.sda.OnlineShop.repository.ProductRepository;
 import com.sda.OnlineShop.repository.SelectedProductRepository;
 import com.sda.OnlineShop.repository.ShoppingCartRepository;
+import com.sda.OnlineShop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +25,20 @@ public class ShoppingCartService {
     private ShoppingCartRepository shoppingCartRepository;
     @Autowired
     private SelectedProductRepository selectedProductRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ShoppingCartMapper shoppingCartMapper;
 
 
 
-    public void addToCart(SelectedProductDto selectedProductDto, String productId, String authenticatedUserEmail){
+    public void addToCart(SelectedProductDto selectedProductDto,
+                          String productId,
+                          String authenticatedUserEmail){
         Optional<Product> optionalProduct = productRepository.findById(Integer.valueOf(productId));
         Product product = optionalProduct.get();
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUserEmail(authenticatedUserEmail);
+
 
         SelectedProduct selectedProduct = buildProduct(selectedProductDto, product, shoppingCart);
 
@@ -41,16 +51,21 @@ public class ShoppingCartService {
         selectedProduct.setProduct(product);
         selectedProduct.setQuantity(Integer.valueOf(selectedProductDto.getQuantity()));
         selectedProduct.setShoppingCart(shoppingCart);
+        selectedProduct.setPrice(product.getPrice());
+        selectedProduct.setName(product.getName());
         return selectedProduct;
     }
 
 
 
     public ShoppingCartDto getShoppingCartDto(String authenticatedUserEmail){
+        Optional<User> optionalUser = userRepository.findByEmail(authenticatedUserEmail);
+        User user = optionalUser.get();
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        ShoppingCartDto shoppingCartDto = shoppingCartMapper.map(shoppingCart);
 
-         return null;
-         // TODO
 
+         return shoppingCartDto;
     }
 
 }

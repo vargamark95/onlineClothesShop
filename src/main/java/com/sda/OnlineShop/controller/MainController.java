@@ -3,7 +3,7 @@ package com.sda.OnlineShop.controller;
 import com.sda.OnlineShop.dto.ProductDto;
 import com.sda.OnlineShop.dto.RegistrationDto;
 import com.sda.OnlineShop.dto.ShoppingCartDto;
-import com.sda.OnlineShop.entities.SelectedProductDto;
+import com.sda.OnlineShop.dto.SelectedProductDto;
 import com.sda.OnlineShop.service.ProductService;
 import com.sda.OnlineShop.service.RegistrationService;
 import com.sda.OnlineShop.service.ShoppingCartService;
@@ -107,6 +107,8 @@ public class MainController {
     @GetMapping("/checkout")
     public String viewCheckoutGet(Authentication authentication, Model model){
         ShoppingCartDto shoppingCartDto = shoppingCartService.getShoppingCartDto(authentication.getName());
+
+        System.out.println(shoppingCartDto);
         model.addAttribute("shoppingcartDto", shoppingCartDto);
         return "checkout";
     }

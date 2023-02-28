@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @ToString
 public class ShoppingCartDto {
+
     private List<SelectedProductDto> selectedProductDtos;
     private String subTotal;
     private String shipping;

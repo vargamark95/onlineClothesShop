@@ -94,18 +94,17 @@
           </form>
         </div>
         <div class="col-lg-4">
-          <div class="order_box">
+          <div  class="order_box">
             <h2>Your Order</h2>
-            <ul class="list">
+            <ul  class="list">
               <li><a href="#"><h4>Product <span>Total</span></h4></a></li>
-              <li><a href="#">Fresh Blackberry <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-              <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-              <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
+              <li th:each="selectedProductDto:${shoppingcartDto.selectedProductDtos}"><a th:text="${selectedProductDto.name}"><span th:text="${'x' + selectedProductDto.quantity}" class="middle"></span><span th:text="${'$' + selectedProductDto.priceTimesQuantity}"  class="last"></span></a></li>
+
             </ul>
             <ul class="list list_2">
-              <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-              <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-              <li><a href="#">Total <span>$2210.00</span></a></li>
+              <li><a href="#">Subtotal <span th:text="${'$' + shoppingcartDto.subTotal}"></span></a></li>
+              <li><a href="#">Shipping <span th:text="${'Flat Rate: $' + shoppingcartDto.shipping}"></span></a></li>
+              <li><a href="#">Total <span th:text="${'$' + shoppingcartDto.total}"></span></a></li>
             </ul>
             <div class="creat_account">
               <input type="checkbox" id="f-option4" name="selector">
@@ -113,7 +112,8 @@
               <a href="#">terms & conditions*</a>
             </div>
             <div class="text-center">
-              <a class="button button-paypal" href="#">Launch order</a>
+              <a class="button button-paypal" href="/home" >Launch order</a>
+
             </div>
           </div>
         </div>
