@@ -19,10 +19,13 @@ public class RegistrationDtoValidator {
     public void validate(RegistrationDto registrationDto, BindingResult bindingResult) {
         Optional<User> optionalUser = userRepository.findByEmail(registrationDto.getEmailAdress());
         if (!optionalUser.isEmpty()) {
-            FieldError fieldError = new FieldError("registrationDto", "emailAdress", "The email is already in use");
+            FieldError fieldError = new FieldError("registrationDto", "emailAdress", "The email is already in use!");
             bindingResult.addError(fieldError);
-        } else {
+        }
 
+        if(!registrationDto.getPassword().equals(registrationDto.getConfirmPassword())){
+            FieldError fieldError2 = new FieldError("registrationDto", "confirmPassword", "The passwords don't match!");
+            bindingResult.addError(fieldError2);
         }
 
 

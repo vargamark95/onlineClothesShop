@@ -20,23 +20,23 @@
   <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
-
+<header th:fragment="menu" class="header_area">
 <!--================Order Details Area =================-->
 <section class="order_details section-margin--small">
   <div class="container">
     <p class="text-center billing-alert">Thank you. Your order has been received.</p>
-    <div class="row mb-5">
+    <div th:object="${customerOrderDto}" class="row mb-5">
       <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
         <div class="confirmation-card">
           <h3 class="billing-title">Order Info</h3>
           <table class="order-rable">
             <tr>
               <td>Order number</td>
-              <td>: 60235</td>
+              <td th:text="${': ' + customerOrderDto.id}"></td>
             </tr>
             <tr>
               <td>Date</td>
-              <td>: Oct 03, 2017</td>
+              <td th:text="${': ' + customerOrderDto.localDate}"></td>
             </tr>
             <tr>
               <td>Total</td>

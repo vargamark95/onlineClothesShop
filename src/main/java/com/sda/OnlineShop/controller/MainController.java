@@ -1,9 +1,6 @@
 package com.sda.OnlineShop.controller;
 
-import com.sda.OnlineShop.dto.ProductDto;
-import com.sda.OnlineShop.dto.RegistrationDto;
-import com.sda.OnlineShop.dto.ShoppingCartDto;
-import com.sda.OnlineShop.dto.SelectedProductDto;
+import com.sda.OnlineShop.dto.*;
 import com.sda.OnlineShop.service.OrderService;
 import com.sda.OnlineShop.service.ProductService;
 import com.sda.OnlineShop.service.RegistrationService;
@@ -16,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -111,15 +109,28 @@ public class MainController {
     public String viewCheckoutGet(Authentication authentication, Model model){
         ShoppingCartDto shoppingCartDto = shoppingCartService.getShoppingCartDto(authentication.getName());
         model.addAttribute("shoppingcartDto", shoppingCartDto);
+
+        CustomerOrderDto customerOrderDto = new CustomerOrderDto();
+        model.addAttribute("customerOrderDto", customerOrderDto);
         System.out.println(shoppingCartDto);
         return "checkout";
     }
 
     @PostMapping("/confirmation")
-    public String launchOrderPost(Authentication authentication){
-        orderService.launchOrder(authentication.getName());
+    public String launchOrderPost(Authentication authentication,@ModelAttribute CustomerOrderDto customerOrderDto){
+        orderService.launchOrder(authentication.getName(), customerOrderDto);
+
         return "confirmationPage";
     }
+
+    @GetMapping("/confirmation")
+    public String launchOrderGet(Model model,@PathVariable(value = "orderId") String orderId){
+        CustomerOrderDto customerOrderDto = orderService.getCustomerOrderDtoById(orderId);
+        model.addAttribute("customerOrderDto", customerOrderDto);
+
+        return "confirmationPage";
+    }
+
 }
 
 
