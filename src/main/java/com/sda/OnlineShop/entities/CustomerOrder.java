@@ -21,15 +21,12 @@ public class CustomerOrder {
     private User user;
     @OneToMany(mappedBy = "customerOrder")
     private List<SelectedProduct> selectedProducts;
-
-    private String contactPerson;
-    private String phoneNumber;
-    private String address;
-    private String postcode;
-    private String city;
-    private String county;
-    private String country;
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
-    private LocalDate localDate;
+    private OrderStatus orderStatus;
+    @OneToOne
+    @JoinColumn
+    @ToString.Exclude
+    private OrderDetails orderDetails;
+
+
 }

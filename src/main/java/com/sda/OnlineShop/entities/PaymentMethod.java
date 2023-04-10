@@ -2,7 +2,12 @@ package com.sda.OnlineShop.entities;
 
 public enum PaymentMethod {
 
-    PAYMENT_METHOD_CASH,
-    PAYMENT_METHOD_CREDIT_CARD,
-    PAYMENT_METHOD_WIRE_TRANSFER
+    METHOD_CASH,
+    METHOD_CREDIT_CARD,
+    METHOD_WIRE_TRANSFER
 }
+
+
+
+
+

@@ -26,32 +26,35 @@
     <div class="container">
         <div class="billing_details">
             <div class="row">
-                <form th:object="${customerOrderDto}" class="row contact_form" method="post" action="/confirmation">
+                <form th:object="${orderDetailsDto}" class="form-check-inline" method="post" action="/confirmation">
                     <div class="col-lg-8">
                         <h3>Billing & Shipping Details</h3>
                         <div class="col-md-12 form-group p_star">
-                            <input th:field="*{contactPerson}" type="text" class="form-control" id="contactPerson" name="contactPerson" placeholder="Contact Person">
+                            <input th:field="*{contactPerson}" type="text" class="form-control" id="contactPerson"
+                                   name="contactPerson" placeholder="Contact Person">
                         </div>
                         <div class="col-md-12 form-group">
-                            <input th:field="*{phoneNumber}" type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="Phone Number">
+                            <input th:field="*{phoneNumber}" type="text" class="form-control" id="phonenumber"
+                                   name="phonenumber" placeholder="Phone Number">
                         </div>
                         <div class="col-md-12 form-group">
-                            <input th:field="*{address}" type="text" class="form-control" id="address" name="address" placeholder="Street, no.">
+                            <input th:field="*{street}" type="text" class="form-control" id="street" name="street"
+                                   placeholder="Street, no.">
                         </div>
                         <div class="col-md-6 form-group p_star">
-                            <input th:field="*{postcode}" type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP">
+                            <input th:field="*{postcode}" type="text" class="form-control" id="zip" name="zip"
+                                   placeholder="Postcode/ZIP">
                         </div>
                         <div class="col-md-6 form-group p_star">
-                            <input th:field="*{city}" type="text" class="form-control" id="city" name="city" placeholder="City">
+                            <input th:field="*{city}" type="text" class="form-control" id="city" name="city"
+                                   placeholder="City">
                         </div>
                         <div class="col-md-12 form-group p_star">
-                            <input th:field="*{county}" type="text" class="form-control" id="county" name="county" placeholder="County">
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <input th:field="*{country}" type="text" class="form-control" id="country" name="country" placeholder="Country">
+                            <input th:field="*{country}" type="text" class="form-control" id="country" name="country"
+                                   placeholder="Country">
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <div class="order_box">
                             <h2>Your Order</h2>
                             <ul class="list">
@@ -73,19 +76,18 @@
                                 <li><a href="#">Total <span th:text="${'$' + shoppingcartDto.total}"></span></a></li>
                             </ul>
                             <div class="col-md-6 form-group">
-                                <select th:field="*{paymentMethod}" type="text" class="form-control" id="paymentMethod" name="paymentMethod">
-                                    <option th:value="PAYMENT_METHOD_CASH" th:text="Cash"></option>
-                                    <option th:value="PAYMENT_METHOD_CREDIT_CARD" th:text="CreditCard"></option>
-                                    <option th:value="PAYMENT_METHOD_WIRE_TRANSFER" th:text="WireTransfer"></option>
-                                </select>
-                            </div>
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option4" name="selector">
-                                <label for="f-option4">I’ve read and accept the </label>
-                                <a href="#">terms & conditions*</a>
+                                <span>Payment Method: </span>
+                                    <select th:field="*{paymentMethod}" type="text" class="form-control" id="paymentMethod"
+                                        name="paymentMethod">
+                                        <option th:value="METHOD_CASH" th:text="Cash"></option>
+                                        <option th:value="METHOD_CREDIT_CARD" th:text="CreditCard"></option>
+                                        <option th:value="METHOD_WIRE_TRANSFER" th:text="WireTransfer"></option>
+                                    </select>
+
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="button button-paypal" href="#">Launch order</button>
+                                <button type="submit" class="button button-paypal" href="/confirmation">Launch order
+                                </button>
                             </div>
                         </div>
                     </div>

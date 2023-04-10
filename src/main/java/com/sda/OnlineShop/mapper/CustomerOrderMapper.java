@@ -1,13 +1,10 @@
 package com.sda.OnlineShop.mapper;
-
 import com.sda.OnlineShop.dto.CustomerOrderDto;
 import com.sda.OnlineShop.dto.SelectedProductDto;
 import com.sda.OnlineShop.entities.CustomerOrder;
-import com.sda.OnlineShop.entities.PaymentMethod;
 import com.sda.OnlineShop.entities.SelectedProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,36 +12,32 @@ import java.util.List;
 public class CustomerOrderMapper {
     @Autowired
     private SelectedProductMapper selectedProductMapper;
-
-    public CustomerOrder map(CustomerOrderDto customerOrderDto){
-        CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setContactPerson(customerOrderDto.getContactPerson());
-        customerOrder.setAddress(customerOrderDto.getAddress());
-        customerOrder.setPostcode(customerOrderDto.getPostcode());
-        customerOrder.setCity(customerOrderDto.getCity());
-        customerOrder.setCounty(customerOrderDto.getCounty());
-        customerOrder.setCountry(customerOrderDto.getCountry());
-        customerOrder.setPhoneNumber(customerOrderDto.getPhoneNumber());
-        customerOrder.setPaymentMethod(PaymentMethod.valueOf(customerOrderDto.getPaymentMethod()));
-
-        return customerOrder;
-    }
+    @Autowired
+    private OrderDetailsMapper orderDetailsMapper;
 
     public CustomerOrderDto map(CustomerOrder customerOrder){
         CustomerOrderDto customerOrderDto = new CustomerOrderDto();
-        customerOrderDto.setAddress(customerOrder.getAddress());
-        customerOrderDto.setCity(customerOrder.getCity());
-        customerOrderDto.setCounty(customerOrderDto.getCounty());
-        customerOrderDto.setCountry(customerOrder.getCountry());
-        customerOrderDto.setPostcode(customerOrder.getPostcode());
-        customerOrderDto.setContactPerson(customerOrder.getContactPerson());
-        customerOrderDto.setPaymentMethod(String.valueOf(customerOrder.getPaymentMethod()));
-        customerOrderDto.setPhoneNumber(customerOrder.getPhoneNumber());
         customerOrderDto.setId(String.valueOf(customerOrder.getId()));
-        customerOrderDto.setLocalDate(String.valueOf(customerOrder.getLocalDate()));
-        customerOrderDto.setSelectedProductDtos(getSelectedProductDtos(customerOrder.getSelectedProducts()));
+
+        List<SelectedProductDto> selectedProductDtos = getSelectedProductDtos(customerOrder.getSelectedProducts());
+        customerOrderDto.setSelectedProductDtos(selectedProductDtos);
+        customerOrderDto.setOrderDetailsDto(orderDetailsMapper.map(customerOrder.getOrderDetails()));
+
+        Integer subtotal = computeSubtotal(selectedProductDtos);
+        customerOrderDto.setSubtotal(String.valueOf(subtotal));
+        customerOrderDto.setShipping("50");
+        customerOrderDto.setTotal(String.valueOf(subtotal + 50));
 
         return customerOrderDto;
+    }
+
+    private Integer computeSubtotal(List<SelectedProductDto> selectedProductDtoList) {
+        int subtotal = 0;
+        for(SelectedProductDto selectedProductDto : selectedProductDtoList){
+            int priceTimesQuantity = Integer.parseInt(selectedProductDto.getPriceTimesQuantity());
+            subtotal += priceTimesQuantity;
+        }
+        return subtotal;
     }
 
     private List<SelectedProductDto> getSelectedProductDtos(List<SelectedProduct> selectedProducts){

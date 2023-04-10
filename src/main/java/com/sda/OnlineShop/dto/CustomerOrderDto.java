@@ -10,16 +10,11 @@ import java.util.List;
 @Setter
 @ToString
 public class CustomerOrderDto {
-
-    private String contactPerson;
-    private String phoneNumber;
-    private String address;
-    private String postcode;
-    private String city;
-    private String county;
-    private String country;
-    private String paymentMethod;
     private String id;
     private List<SelectedProductDto> selectedProductDtos;
-    private String localDate;
+    private OrderDetailsDto orderDetailsDto;
+    private String orderStatus;
+    private String subtotal;
+    private String shipping;
+    private String total;
 }

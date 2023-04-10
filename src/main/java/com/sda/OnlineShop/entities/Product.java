@@ -3,6 +3,7 @@ package com.sda.OnlineShop.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.mapping.Join;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.awt.*;
@@ -28,4 +29,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<SelectedProduct> selectedProducts;
+//    @ManyToOne
+//    @JoinColumn
+//    private User user;
 }

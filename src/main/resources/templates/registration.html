@@ -48,6 +48,7 @@
             </div>
             <div class="col-md-12 form-group">
               <input th:field="*{phoneNumber}" type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
+              <p th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
             </div>
             <div class="col-md-12 form-group">
               <input th:field="*{password}" type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
