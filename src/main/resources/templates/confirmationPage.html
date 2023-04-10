@@ -20,77 +20,54 @@
   <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
-
+<div th:insert="~{fragments/menu :: menu}"></div>
 <!--================Order Details Area =================-->
 <section class="order_details section-margin--small">
   <div class="container">
     <p class="text-center billing-alert">Thank you. Your order has been received.</p>
-    <div class="row mb-5">
-      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+    <div th:object="${customerOrderDto}" class="row mb-5">
+      <div class="col-md-9 col-xl-6 mb-4 mb-xl-0">
         <div class="confirmation-card">
           <h3 class="billing-title">Order Info</h3>
           <table class="order-rable">
             <tr>
               <td>Order number</td>
-              <td>: 60235</td>
+              <td th:text="${': ' + customerOrderDto.id}"></td>
             </tr>
             <tr>
               <td>Date</td>
-              <td>: Oct 03, 2017</td>
+              <td th:text="${': ' + customerOrderDto.orderDetailsDto.localDate}" ></td>
             </tr>
             <tr>
               <td>Total</td>
-              <td>: USD 2210</td>
+              <td th:text="${': ' + customerOrderDto.total}"></td>
             </tr>
             <tr>
               <td>Payment method</td>
-              <td>: Check payments</td>
+              <td th:text="${': ' + customerOrderDto.orderDetailsDto.paymentMethod}" ></td>
             </tr>
           </table>
         </div>
       </div>
-      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-        <div class="confirmation-card">
-          <h3 class="billing-title">Billing Address</h3>
-          <table class="order-rable">
-            <tr>
-              <td>Street</td>
-              <td>: 56/8 panthapath</td>
-            </tr>
-            <tr>
-              <td>City</td>
-              <td>: Dhaka</td>
-            </tr>
-            <tr>
-              <td>Country</td>
-              <td>: Bangladesh</td>
-            </tr>
-            <tr>
-              <td>Postcode</td>
-              <td>: 1205</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+      <div class="col-md-9 col-xl-6 mb-4 mb-xl-0">
         <div class="confirmation-card">
           <h3 class="billing-title">Shipping Address</h3>
           <table class="order-rable">
             <tr>
               <td>Street</td>
-              <td>: 56/8 panthapath</td>
+              <td th:text="${': ' + customerOrderDto.orderDetailsDto.street}"></td>
             </tr>
             <tr>
               <td>City</td>
-              <td>: Dhaka</td>
+              <td th:text="${': ' + customerOrderDto.orderDetailsDto.city}"></td>
             </tr>
             <tr>
               <td>Country</td>
-              <td>: Bangladesh</td>
+              <td th:text="${': ' + customerOrderDto.orderDetailsDto.country}"></td>
             </tr>
             <tr>
               <td>Postcode</td>
-              <td>: 1205</td>
+              <td th:text="${': ' + customerOrderDto.orderDetailsDto.postcode}"></td>
             </tr>
           </table>
         </div>
@@ -108,37 +85,15 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
+          <tr th:each="selectedProductDto:${customerOrderDto.selectedProductDtos}" >
             <td>
-              <p>Pixelstore fresh Blackberry</p>
+              <p th:text="${selectedProductDto.name}" ></p>
             </td>
             <td>
-              <h5>x 02</h5>
+              <h5 th:text="${'x' + selectedProductDto.quantity}"></h5>
             </td>
             <td>
-              <p>$720.00</p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Pixelstore fresh Blackberry</p>
-            </td>
-            <td>
-              <h5>x 02</h5>
-            </td>
-            <td>
-              <p>$720.00</p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Pixelstore fresh Blackberry</p>
-            </td>
-            <td>
-              <h5>x 02</h5>
-            </td>
-            <td>
-              <p>$720.00</p>
+              <p th:text="${'$' + selectedProductDto.priceTimesQuantity}"></p>
             </td>
           </tr>
           <tr>
@@ -149,7 +104,7 @@
               <h5></h5>
             </td>
             <td>
-              <p>$2160.00</p>
+              <p th:text="${'$' + customerOrderDto.subtotal}"></p>
             </td>
           </tr>
           <tr>
@@ -171,7 +126,7 @@
               <h5></h5>
             </td>
             <td>
-              <h4>$2210.00</h4>
+              <h4 th:text="${'$' + customerOrderDto.total}"></h4>
             </td>
           </tr>
           </tbody>

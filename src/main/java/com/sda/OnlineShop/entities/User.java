@@ -25,4 +25,6 @@ public class User {
     private ShoppingCart shoppingCart;
     @OneToMany(mappedBy = "user")
     private List<CustomerOrder> customerOrders;
+//    @OneToMany(mappedBy = "soldBy")
+//    private List<Product> productsSold;
 }

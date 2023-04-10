@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,4 +21,12 @@ public class CustomerOrder {
     private User user;
     @OneToMany(mappedBy = "customerOrder")
     private List<SelectedProduct> selectedProducts;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+    @OneToOne
+    @JoinColumn
+    @ToString.Exclude
+    private OrderDetails orderDetails;
+
+
 }
